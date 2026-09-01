@@ -1,0 +1,26 @@
+<launch>
+    <arg name="model_name"/>
+    <arg name="uuv_name" default="$(var model_name)"/>
+
+    <include file="$(find-pkg-share bluerov2_heavy_thruster_manager)/launch/start_thruster_manager.launch">
+        <arg name="uuv_name" value="$(var uuv_name)" />
+        <arg name="model_name" value="$(var model_name)" />
+    </include>
+
+    <include file="$(find-pkg-share uuv_teleop)/launch/uuv_teleop.launch">
+        <arg name="uuv_name" value="$(var uuv_name)"/>
+        <arg name="joy_id" value="$(var joy_id)"/>
+        <arg name="output_topic" value="cmd_vel"/>
+        <arg name="message_type" value="twist"/>
+    </include>
+
+    <group>
+        <push-ros-namespace namespace="$(var uuv_name)"/>
+    
+    
+        <node pkg="bluerov2_heavy_cascaded_pids" exec="velocity_control.py" name="velocity_control" output="screen">
+            <remap from="odom" to="/$(var uuv_name)/pose_gt"/>
+            <remap from="cmd_accel" to="/$(var uuv_name)/cmd_accel"/>
+        </node>
+    </group>
+</launch>

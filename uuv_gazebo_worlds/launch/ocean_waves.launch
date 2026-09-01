@@ -25,10 +25,6 @@
         <!-- Also investigate why /gazebo ns has a strong bad perf impact-->
         <arg name="extra_gazebo_args" value="-s libgazebo_ros_force_system.so --ros-args -r gazebo:__ns:=/gazebo"/>
     </include>
-
-    <include file="$(find-pkg-share uuv_assistants)/launch/publish_world_ned_frame.launch">
-        <arg name="use_sim_time" value="$(var use_sim_time)"/>
-    </include>
     
     <node name="publish_world_models"
         pkg="uuv_assistants"
@@ -42,4 +38,8 @@
             <arg name="timeout" value="$(var timeout)"/>
         </include>
     </group>
+
+    <include file="$(find-pkg-share uuv_assistants)/launch/publish_world_ned_frame.launch">
+        <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    </include>
 </launch>

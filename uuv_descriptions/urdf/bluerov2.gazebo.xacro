@@ -1,0 +1,45 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!--
+    Center of buoyancy according to eq. (3.1) p. 28 in Berg2012.
+    The original values, [0.0822, -0.00773, 0.3872] however, seem to
+    assume NWU (otherwise cob is below cog?).
+    -->
+    <xacro:property name="cob" value="0 0 0.01"/>
+
+    <!-- Volume, see p.31 in Berg2012 -->
+    <xacro:property name="volume" value="0.0139178"/>
+
+    <xacro:macro name="bluerov2_hydro_model" params="namespace">
+        <link name="${namespace}/base_link">
+            <neutrally_buoyant>0</neutrally_buoyant>
+            <volume>${volume}</volume>
+            <box>
+                <width>0.575</width>
+                <length>0.457</length>
+                <height>0.254</height>
+            </box>
+            <center_of_buoyancy>${cob}</center_of_buoyancy>
+            <hydrodynamic_model>
+                <type>fossen</type>
+                <!-- Added mass: see p.28 in Berg2012 -->
+                <added_mass>
+                    5.5  0 0 0 0 0
+                    0 12.7 0 0 0 0
+                    0 0 14.57 0 0 0
+                    0 0 0 0.12 0 0
+                    0 0 0 0 0.12 0
+                    0 0 0 0 0 0.12
+                </added_mass>
+                <!-- Linear damping: see p.31 in Berg2012 -->
+                <linear_damping>
+                    -4.03 -6.22 -5.18     -0.07  -0.07  -0.07
+                </linear_damping>
+                <!-- Non-linear damping: see p.30 in Berg2012 -->
+                <quadratic_damping>
+                    -18.18   -21.66   -36.99   -1.55  -1.55  -1.55
+                </quadratic_damping>
+            </hydrodynamic_model>
+        </link>
+    </xacro:macro>
+
+</robot>

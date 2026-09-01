@@ -27,8 +27,8 @@
 #include <gazebo/physics/Model.hh>
 #include <gazebo/common/Plugin.hh>
 
+// #include <gazebo_ros/node.hpp> // Removed for Humble compatibility
 #include <gazebo_ros/node.hpp>
-
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/battery_state.hpp>
 

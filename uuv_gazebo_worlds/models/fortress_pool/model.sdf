@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<sdf version="1.5">
+    <model name="fortress_pool">
+        <static>true</static>
+        <link name="fortress_pool">
+            <visual name="pool_visual">
+                <pose>0 0 0 1.5708 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <uri>model://fortress_pool/meshes/pool-2.obj</uri>
+                        <scale>0.5 0.5 0.5</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+            <collision name="pool_visual">
+                <pose>0 0 0 1.5708 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <uri>model://fortress_pool/meshes/pool-2.obj</uri>
+                        <scale>0.5 0.5 0.5</scale>
+                    </mesh>
+                </geometry>
+            </collision>
+            <self_collide>0</self_collide>
+        </link>
+    </model>
+</sdf>

@@ -73,12 +73,18 @@ void UnderwaterCurrentROSPlugin::Load(gazebo::physics::WorldPtr _world,
   if (_sdf->HasElement("namespace"))
     this->ns = _sdf->Get<std::string>("namespace");
 
-  
+  // Use the plugin name as node name (fallback to "underwater_current_plugin")
+  std::string node_name = _sdf->HasElement("name")
+                          ? _sdf->Get<std::string>("name")
+                          : "underwater_current_plugin";
 
+  /*
   //TODO Think about adding the namespace in the SDF
   myRosNode =  gazebo_ros::Node::CreateWithArgs(sdf->Get<std::string>("name"), this->ns);
   //this->rosNode.reset(new ros::NodeHandle(this->ns));
-  
+  */
+  this->myRosNode = std::make_shared<rclcpp::Node>(node_name, this->ns);
+
   gzmsg << "[UnderwaterCurrentROSPlugin] Node created with name: " << myRosNode->get_name() << 
     " with namespace: " << myRosNode->get_namespace() << std::endl;
 

@@ -33,6 +33,7 @@
   <exec_depend>uuv_assistants</exec_depend>
   <exec_depend>uuv_control_msgs</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>tf_transformations</exec_depend>
   
   <test_depend>ament_cmake_pytest</test_depend>
 

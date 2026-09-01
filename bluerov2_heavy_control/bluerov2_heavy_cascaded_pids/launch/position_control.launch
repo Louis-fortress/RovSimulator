@@ -1,0 +1,17 @@
+<launch>
+    <arg name="model_name"/>
+    <arg name="uuv_name" default="$(var model_name)"/>
+
+    <include file="$(find-pkg-share bluerov2_heavy_thruster_manager)/launch/start_thruster_manager.launch">
+        <arg name="uuv_name" value="$(var uuv_name)" />
+        <arg name="model_name" value="$(var model_name)" />
+    </include>
+
+    <group>
+        <push-ros-namespace namespace="$(var uuv_name)"/>    
+    
+        <node pkg="bluerov2_heavy_cascaded_pids" exec="position_control.py" name="position_control" output="screen">
+            <remap from="odom" to="/$(var uuv_name)/pose_gt"/>
+        </node>
+    </group>
+</launch>

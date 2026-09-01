@@ -28,8 +28,8 @@
 #include <gazebo/gazebo.hh>
 #include <gazebo/msgs/msgs.hh>
 
+// #include <gazebo_ros/node.hpp> // Removed for Humble compatibility
 #include <gazebo_ros/node.hpp>
-
 #include <uuv_gazebo_plugins/HydrodynamicModel.h>
 #include <uuv_gazebo_plugins/Def.h>
 

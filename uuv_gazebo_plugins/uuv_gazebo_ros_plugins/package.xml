@@ -31,6 +31,8 @@
   <depend>uuv_gazebo_plugins</depend>
   <depend>uuv_gazebo_ros_plugins_msgs</depend>
   <depend>visualization_msgs</depend>
+  <depend>gazebo_ros</depend>
+
 
   <test_depend>launch</test_depend>
   <test_depend>launch_testing</test_depend>

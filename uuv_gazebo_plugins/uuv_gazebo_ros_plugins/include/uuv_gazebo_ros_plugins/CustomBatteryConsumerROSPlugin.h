@@ -26,8 +26,8 @@
 #include <gazebo/physics/Model.hh>
 #include <gazebo/physics/Link.hh>
 #include <gazebo/common/Plugin.hh>
-
 #include <gazebo_ros/node.hpp>
+// #include <gazebo_ros/node.hpp> // Removed for Humble compatibility
 
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/bool.hpp>

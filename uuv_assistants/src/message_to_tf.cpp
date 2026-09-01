@@ -37,8 +37,8 @@
 #include <sensor_msgs/msg/imu.hpp>
 
 #include <tf2/LinearMath/Transform.h>
-#include <tf2_ros/transform_broadcaster.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_ros/transform_broadcaster.hpp>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
 
 std::string g_odometry_topic;
@@ -59,10 +59,12 @@ tf2_ros::TransformBroadcaster *g_transform_broadcaster; //revert to not static v
 rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr g_pose_publisher;
 rclcpp::Publisher<geometry_msgs::msg::Vector3Stamped>::SharedPtr g_euler_publisher;
 
+/*
 #ifndef TF2_MATRIX3x3_H
   typedef btScalar tfScalar;
   namespace tf { typedef btMatrix3x3 Matrix3x3; }
 #endif
+*/
 
 void addTransform(std::vector<geometry_msgs::msg::TransformStamped>& transforms, const tf2::Stamped<tf2::Transform>& tf, std::string child_frame_id)
 {
@@ -72,6 +74,7 @@ void addTransform(std::vector<geometry_msgs::msg::TransformStamped>& transforms,
   transforms.push_back(new_msg);
 }
 
+/*
 namespace tf2 
 {
   //Specialization for Point msg
@@ -80,6 +83,7 @@ namespace tf2
     out = Vector3(msgIn.x, msgIn.y, msgIn.z);
   }
 }
+*/
 
 std::string stripSlash(const std::string & in)
 {

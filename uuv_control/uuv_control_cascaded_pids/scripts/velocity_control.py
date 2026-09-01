@@ -23,7 +23,7 @@
 import numpy
 import rclpy
 from rclpy.node import Node
-from rcl_interfaces.msg import ParameterDescriptor
+from rcl_interfaces.msg import ParameterDescriptor, SetParametersResult
 import geometry_msgs.msg as geometry_msgs
 from nav_msgs.msg import Odometry
 
@@ -62,7 +62,7 @@ class VelocityControllerNode(Node):
         self._declare_and_fill_map(
             "odom_vel_in_world", True, "Is odometry velocity supplied in world frame? (gazebo)", self.config)
         
-        self.set_parameters_callback(self.callback_params)
+        self.add_on_set_parameters_callback(self.callback_params)
         
         self.create_pids(self.config)
 

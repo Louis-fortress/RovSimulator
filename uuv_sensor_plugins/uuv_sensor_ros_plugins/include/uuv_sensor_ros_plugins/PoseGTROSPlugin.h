@@ -42,6 +42,10 @@
 #include <gazebo/physics/physics.hh>
 
 #include <uuv_sensor_ros_plugins/ROSBaseModelPlugin.h>
+#include <tf2_ros/transform_listener.h>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/create_timer_ros.h>
+
 
 #include <memory>
 

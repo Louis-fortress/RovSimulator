@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bluerov2_heavy">
+
+  <xacro:include filename="$(find uuv_descriptions)/urdf/common.urdf.xacro"/>
+  <xacro:include filename="$(find uuv_gazebo_ros_plugins)/urdf/snippets.xacro"/>
+  <!-- <xacro:include filename="$(find uuv_gazebo_ros_plugins)/urdf/thruster_snippets.xacro"/> -->
+  <xacro:include filename="$(find uuv_descriptions)/urdf/bluerov2_snippets.xacro"/>
+  <xacro:include filename="$(find uuv_sensor_ros_plugins)/urdf/sensor_snippets.xacro"/>
+
+  <xacro:property name="namespace"           value="bluerov2_heavy"/>
+  <xacro:property name="cog" value="0 0 -0.067"/>
+  <xacro:property name="mesh_origin" value="0 0 0"/>
+  <xacro:property name="base_link_mesh_file" 
+    value="file://$(find uuv_descriptions)/meshes/bluerov2_heavy.dae"/>
+
+  <!-- BlueROV2 physical properties -->
+  <!-- Mass: 10kg  -->
+  <xacro:property name="mass" value="13.5"/>
+
+  <xacro:macro name="bluerov2_base" params="namespace *gazebo inertial_reference_frame">
+
+    <!-- base_link: x forward, y left, z up (ROS convention) -->
+    <link name="${namespace}/base_link">
+      <inertial>
+        <!-- BlueROV2 center of mass slightly above geometric center -->
+        <origin xyz="${cog}" rpy="0 0 0"/>
+        <mass value="${mass}"/>
+        <!-- Inertia from Blue description — scaled to meters -->
+        <inertia
+          ixx="0.16"  ixy="0.0"   ixz="0.0"
+                       iyy="0.16" iyz="0.0"
+                                   izz="0.16"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="${cog}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${base_link_mesh_file}" scale="1 1 1"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <!-- Use box approximation for collision — faster than mesh -->
+        <origin xyz="${cog}" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${base_link_mesh_file}" scale="1 1 1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Hydrodynamic plugin passed in from top-level xacro -->
+    <xacro:insert_block name="gazebo"/>
+
+    <!-- Actuators and sensors -->
+    <xacro:include filename="$(find uuv_descriptions)/urdf/bluerov2_actuators.xacro"/>
+    <xacro:include filename="$(find uuv_descriptions)/urdf/bluerov2_sensors.xacro"/>
+
+  </xacro:macro>
+</robot>

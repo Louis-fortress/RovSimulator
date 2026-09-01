@@ -28,7 +28,7 @@
 #include <gazebo/physics/World.hh>
 #include <gazebo/transport/TransportTypes.hh>
 #include <gazebo/transport/transport.hh>
-
+#include <gazebo_ros/node.hpp>
 #include <geometry_msgs/msg/accel.hpp>
 
 #include <uuv_gazebo_ros_plugins/AccelerationsTestPlugin.h>
@@ -93,7 +93,7 @@ void AccelerationsTestPlugin::Load(physics::ModelPtr _model,
     return;
   }
 
-  myRosNode =  gazebo_ros::Node::Get(_sdf);
+  this->myRosNode =  gazebo_ros::Node::Get(_sdf);
   //this->rosNode.reset(new ros::NodeHandle(""));
 
   myPub_accel_w_gazebo =

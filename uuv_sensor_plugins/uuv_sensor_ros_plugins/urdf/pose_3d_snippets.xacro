@@ -65,7 +65,7 @@
       namespace="${namespace}"
       parent_link="${parent_link}"
       topic="${topic}"
-      update_rate="20"
+      update_rate="100"
       noise_sigma="${gaussian_noise_sigma}"
       noise_amplitude="${gaussian_noise_amplitude}"
       suffix="${suffix}"

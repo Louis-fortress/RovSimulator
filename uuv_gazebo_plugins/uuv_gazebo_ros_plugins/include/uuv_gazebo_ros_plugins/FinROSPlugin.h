@@ -28,8 +28,8 @@
 
 #include <gazebo/common/Plugin.hh>
 
+// #include <gazebo_ros/node.hpp> // Removed for Humble compatibility
 #include <gazebo_ros/node.hpp>
-
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/wrench_stamped.hpp>
 

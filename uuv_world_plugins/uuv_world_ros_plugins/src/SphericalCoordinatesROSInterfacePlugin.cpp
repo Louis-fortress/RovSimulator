@@ -64,9 +64,21 @@ void SphericalCoordinatesROSInterfacePlugin::Load(
 
   this->world = _world;
 
+  /*
   //TODO Think about adding the "gazebo" namespace in the SDF : <ros><namespace>
   myRosNode =  gazebo_ros::Node::Get(_sdf);
   //this->rosNode.reset(new ros::NodeHandle(""));
+  */
+  
+  std::string node_name = _sdf->HasElement("name")
+                        ? _sdf->Get<std::string>("name")
+                        : "spherical_coordinates_plugin";
+                        
+  std::string ns = "";
+  if (_sdf->HasElement("namespace"))
+    ns = _sdf->Get<std::string>("namespace");
+
+  this->myRosNode = std::make_shared<rclcpp::Node>(node_name, ns);
 
   gzmsg << "[SphericalCoordinatesROSInterfacePlugin] Node created with name: " << 
     myRosNode->get_name() << " with namespace: " << myRosNode->get_namespace() << std::endl;

@@ -405,7 +405,9 @@ list(APPEND UUV_SENSOR_ROS_PLUGINS_LIST uuv_gazebo_ros_camera_plugin)
 
 add_library(image_sonar_ros_plugin SHARED src/gazebo_ros_image_sonar.cpp)
 target_link_libraries(image_sonar_ros_plugin ${OGRE_LIBRARIES} ${LIBS}
-  ${GAZEBO_LIBRARIES})
+  ${GAZEBO_LIBRARIES} gazebo_rendering     gazebo_sensors # OGRE scene manager
+          # sensor base classes
+)
 list(APPEND UUV_SENSOR_ROS_PLUGINS_LIST image_sonar_ros_plugin)
 
 install(TARGETS ${UUV_SENSOR_ROS_PLUGINS_LIST}

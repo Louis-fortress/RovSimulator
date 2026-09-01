@@ -20,6 +20,7 @@ scripts/rov_nl_pid_controller.py
   scripts/demo_wp_trajectory_generator.py
   scripts/rov_pd_grav_compensation_controller.py 
   scripts/rov_sf_controller.py
+  scripts/reconrobot_point_to_shoot.py
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch config

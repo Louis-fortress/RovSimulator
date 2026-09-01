@@ -105,7 +105,11 @@ def launch_setup(context, *args, **kwargs):
             file_out.write(doc)
     
     # URDF spawner
-    args=('-gazebo_namespace /gazebo '
+    """ args=('-gazebo_namespace /gazebo '
+        '-x %s -y %s -z %s -R %s -P %s -Y %s -entity %s -topic robot_description' 
+        %(x, y, z, roll, pitch, yaw, namespace)).split() """
+    
+    args=(
         '-x %s -y %s -z %s -R %s -P %s -Y %s -entity %s -topic robot_description' 
         %(x, y, z, roll, pitch, yaw, namespace)).split()
 
