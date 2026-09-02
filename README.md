@@ -127,7 +127,7 @@ The vehicle utilizes a multi-loop cascaded PID architecutre
 ## Troubleshooting & Notes
 - Gazebo Model Path: If Gazebo fails to locate meshes or vehicle textures, ensure ```GAZEBO_MODEL_PATH``` is exported:
   ```bash
-  export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/ros2_ws/src/bluerov2_heavy_description
+  export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/uuv_ws/src/bluerov2_heavy_description/meshes
   ```
 - Package not found
   Make sure the workspace is built and sourced:
