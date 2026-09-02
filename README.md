@@ -1,163 +1,147 @@
-# [Plankton](https://www.liquid-tech.ai/)
-Open source simulator for maritime robotics researchers
+# BlueROV2 Heavy Simulation and Control Framework (ROS 2 Humble)
 
-![uuv mapping](./uuv_mapping.png)
+![Bluerov2 Heayy](./Bluerov2_heavy.png)
 
-Plankton is an initiative aiming at simplifying robotics research in the maritime domain. 
-It is a maritime environment simulator with an open source core, and a special focus on ease of use, stability, speed and sim to real. Its middleware of choice is ROS 2.
+This repository provides a complete simulation environment that contains the simulation model, hydrodynamic model, actuators, sensors and a cascaded PID control architecture used to simulate and control the BlueROV2 Heavy in Gazebo.
 
-We intend to build a sustainable and open source core simulator for maritime robotics research. This core will support flexible specification of sensor suites and environmental conditions.
+## Table of Contents
+1. [Prerequisites & System Requirements](#prerequisites--system-requirements)
+2. [Installation & Setup](#installation--setup)
+3. [Running the Simulation](#running-the-simulation)
+4. [Repository Structure & Architecture Guide](#repository-structure--architecture-guide)
+   - [Vehicle Model Description](#1-vehicle-model-description)
+   - [Hydrodynamics Parameters](#2-hydrodynamics-parameters)
+   - [Sensors Configuration](#3-sensors-configuration)
+   - [Actuators & Thruster Allocation](#4-actuators--thruster-allocation)
+   - [Control Architecture & PID Tuning](#5-control-architecture--pid-tuning)
+5. [Troubleshooting & Notes](#troubleshooting--notes)
 
-This project benefits from great open source advances in the simulation domain, mainly ROS, Gazebo and its plugin UUV Simulator. 
-It is also built on data characterizing the needs of robotics researchers in terms of simulation. We gathered these data in our [wiki](https://github.com/Liquid-ai/Plankton/wiki), including the results of our [own survey](https://github.com/Liquid-ai/Plankton/blob/master/user_needs/Survey_about_simulators_for_robotics_research.pdf) on simulation needs.
+---
 
-# Roadmap #
-The first iteration of the projet is built from UUV Simulator and gazebo 9. We made UUV Simulator compatible with ROS2. In the following months, we intend to improve the performance (speed) of the simulator, and to test different alternatives to gazebo 9 or 11. We will choose the best simulation framework according to our users present and future needs.
+## Prerequisites & System Requirements
 
-We released a beta version of UUV Simulator for ROS 2 in September. The last release in December 2020 made our simulator Plankton compatible with ROS 2 Foxy Fitzroy.
+Before installing, ensure your system meets the following prerequisites:
+* **OS:** Ubuntu 22.04 LTS (or compatible Linux distribution)
+* **ROS 2:** ROS 2 Humble Hawksbill 
+* **Gazebo:** Gazebo Classic 
+* **Dependencies:** `colcon`
 
+---
 
-# Contributing #
-You can contribute by reporting bugs, proposing new features, improving documentation, contributing to code.
-### Reporting bugs ###
-Use our issue section on GitHub. Please check before that the issue is not already reported.
-### Proposing new features ###
-Please check first the list of feature requests. If it is not there and you think is a feature that might be interesting for users, please submit your request as a new issue.
-### Improving documentation ###
-If you feel something is missing in the documentation, please don't hesitate to open an issue to let us know. Even better, if you think you can improve it yourself, it would be a great contribution to the community!
-### Contributing to code ###
-So you are considering making a code contribution, great! We love to have contributions from the community.
-Before starting hands-on on coding, please check out our issue board to see if we are already working on that, it would be a pity putting an effort into something just to discover that someone else was already working on that. In case of doubt or to discuss how to proceed, please contact one of us (or send an email to loic.mougeolle@naval-group.com).
+## Installation & Setup
 
-# Installation #
-Plankton currently supports:
+Follow these steps to set up the workspace and install the repository on a new system:
 
-- **ROS 2 Foxy** with **Gazebo 9** or **Gazebo 11** and **Ubuntu 20.04**
-
-- **ROS 2 Eloquent**, **Ubuntu 18.04** and **Gazebo 9**
-
-### 1. Install ROS 2 Foxy 
-
-If you don’t have ROS 2 Foxy installed, follow the instructions below and prefer to install the `ros-foxy-desktop` package:
-<https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Install-Debians/>
-
-### 2. Install Gazebo 11
-
-If you don't have Gazebo 11 installed, open a terminal and follow the steps below:
-
+### 1. Create a ROS 2 Workspace
+```bash
+mkdir -p ~/uuv_ws/src
+cd ~/uuv_ws/src
 ```
-sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install gazebo11
-sudo apt-get install libgazebo11-dev
+### 2. Clone the Repository
+
+Clone this in the src folder of the workspace
+```bash
+git clone [https://github.com/Louis-fortress/RovSimulator.git](https://github.com/Louis-fortress/RovSimulator.git)
+cd ~/uuv_ws
 ```
+### 3. Install Dependencies
 
-You can write `gazebo` in a terminal to make sure that gazebo runs correctly. Write `gazebo --version` to ensure that the version number is 11.X.
-
->For more information about the installation of Gazebo, refer to the official installation documentation (beware that the default installation command will not install the version 11): 
-><http://gazebosim.org/tutorials?tut=install_ubuntu&cat=install>
-
-### 3. Install the ros packages for gazebo
-
-Write in a terminal:  
-`sudo apt install ros-foxy-gazebo-ros-pkgs`
-
->See <http://gazebosim.org/tutorials?tut=ros2_installing&cat=connect_ros> for more detailed information about gazebo and ROS 2 connection.
-
-### 4. Build the Plankton plugin
-
-If you don’t have a ROS 2 workspace yet, create a workspace that will contain your projects. In this installation guide, we choose an original name for this directory, `ros2_ws`:  
-`mkdir -p ~/ros2_ws/src`
-
-Move to the src directory:  
-`cd ~/ros2_ws/src`
-
-Make sure git is installed:  
-`sudo apt install git`
-
-Now, clone the Plankton repository:  
-`git clone https://www.github.com/Liquid-ai/Plankton.git`
-
-At this point, you need to source 2 different files described below to configure ROS 2 and Gazebo environment variables: 
-   - For ROS 2 variables  
-`source /opt/ros/foxy/setup.bash`  
-   - For Gazebo   
-`source /usr/share/gazebo/setup.sh`
-
-In order to download missing packages, install ROS dependency manager. Write the commands below in a terminal:  
-```
-sudo apt install python3-rosdep
+Update your ROS depencies using rosdep
+```bash
 sudo rosdep init
 rosdep update
+rosdep install --from-paths src --ignore-src -r -y
+```
+### 4. Build the Workspace
+
+Build the packages using colcon:
+```bash
+cd ~/uuv_ws
+colcon build --symlink-install
+```
+### 5. Source the Workspace
+
+Source the workspace
+```bash
+source ~/uuv_ws/install/setup.bash
 ```
 
-Browse to the root of your workspace and check for missing dependencies:  
+## Running the Simulation
+
+Running the full simulation environment requires launching three components in separate terminal windows
+
+### 1. Launch the Gazebo Ocean World
+
+Start the simulation environment with underwater physics 
+```bash
+ros2 launch uuv_gazebo_worlds ocean_world.launch
 ```
-cd ~/ros2_ws/
-rosdep install -i --from-path src --rosdistro foxy -y
+### 2. Spawn the BlueROV2 Heavy Vehicle
+```bash
+ros2 launch bluerov2_heavy_description upload_bluerov2_heavy.launch.py namespace:=bluerov2_heavy
 ```
-
-Install Colcon, the build tool system:  
-`sudo apt install python3-colcon-common-extensions`
-
-Build the Plankton repository:  
-`colcon build --packages-up-to plankton`
-
-Source the file for your installation workspace (change the path accordingly)  
-`source $HOME/ros2_ws/install/setup.bash`  
-
-Next step is… No next step, you are already done!
-If everything went well, you should be able to run example cases.
-
-### 5. Test the package
-
-Note: Every time you open a new terminal, you need to source 3 different files described below to configure ROS 2 and Gazebo environment variables. Write the following each time you start a new terminal to deal with ROS 2 / Gazebo stuff, or prefer to add them at the end of your .bashrc file with `gedit ~/.bashrc`. For the latter, don’t forget to source your .bashrc to enforce the update after saving these changes, or open a fresh terminal.  
-
-   - For ROS 2 variables  
-`source /opt/ros/foxy/setup.bash`  
-   - For your installation workspace (change the path accordingly)  
-`source $HOME/ros2_ws/install/setup.bash`  
-   - For Gazebo   
-`source /usr/share/gazebo/setup.sh`
-
-Let's start testing Plankton. 
-Open a new terminal (don’t forget to source ROS 2 / Gazebo files if necessary) and write as below to open a gazebo world:  
-`ros2 launch uuv_gazebo_worlds ocean_waves.launch`
-
-Open again a new terminal (don't forget to source ROS 2 / Gazebo files if necessary), and spawn the rexrov robot:  
-`ros2 launch uuv_descriptions upload_rexrov.launch mode:=default x:=0 y:=0 z:=-20 namespace:=rexrov`
-
-Add a joystick node to control it remotely (new terminal needed) :  
-`ros2 launch uuv_control_cascaded_pid joy_velocity.launch uuv_name:=rexrov model_name:=rexrov joy_id:=0`
-
-Here, joy_id represents your joystick id, defined in your OS. You can determine what is your id by installing `sudo apt-get install jstest-gtk` and running it.
-
-A more complete documentation of the UUV Simulator features is available here:  
-<https://uuvsimulator.github.io/>
-
-Beware that the UUV Simulator documentation is written for ROS 1, so you will have to make adjustments on given commands to make it work in Plankton.
-
-## FAQ
-
-#### Logging and print information are not displayed in the terminal  
-It is a problem affecting eloquent and launch files. Prefix your `ros2 launch` command with `stdbuf -o L`. If you are using python launch file, you can launch your node with the `emulate_tty` argument:    
-```
-Node(
-    package='package_name',
-    node_executable='package_exec',
-    output='screen',
-    emulate_tty=True,
-)
+### 3. Start the Cascaded PID Controller
+```bash
+ros2 launch bluerov2_heavy_cascaded_pids velocity_control_four
 ```
 
-#### The Gazebo worlds show a black screen when using virtual machine
-Try to add the following line to your ~/.bashrc file     
-`export LIBGL_ALWAYS_SOFTWARE=1`
+## Repository Structure & Architecture Guide
 
-## External contributions
+This section outlines key entry points in the codebase for physical parameter modifications, sensor configurations and control loop tuning
 
-   - Port of the ECA A9 AUV, initially developed for UUV Simulator, to Plankton: https://github.com/GSO-soslab/eca_a9_plankton
+### 1. Vehicle Model Description
 
-# License #
-Plankton is distributed under Apache License version 2.0 
+The visual, structural and kinematic definitions for the BlueROV2 Heavy sit under:
+   - Directory: ```bluerov2_heavy_description/```
+   - Main Entry File: ```bluerov2_heavy_description/urdf/base.xacro```
+   - Key Componenets: Links, joints, inertia matrices, and visual/collision meshes.
+
+### 2. Hydrodynamics Parameters
+
+Hydrodynamic forces (added mass matrices, linear/quadratic damping, and fluid coriolis matrices) are configured in:
+   - Directory: ```bluerov2_heavy_description/```
+   - Main Entry File: ```bluerov2_heavy_description/urdf/gazebo.xacro```
+   - Key Componenets: Center of Buoyancy, Added mass, Linear Damping and Quadratic Damping
+
+### 3. Sensor Configuration
+
+Vehicle sensors (pose_3d, imu, pressure sensors) are defined in:
+   - Directory: ```bluerov2_heavy_description/```
+   - Main Entry File: ```bluerov2_heavy_description/urdf/sensors.xacro```
+   - Key Componenets: pose_3d, imu, pressure
+
+### 4. Actuator & Thruster Allocation
+
+Thruster layouts, dynamic response constants, and thruster allocation matrices (TAM) are located at:
+   - Directory: ```bluerov2_heavy_description/``` and ```bluerov2_heavy_control respectively```
+   - Main Entry File: ```bluerov2_heavy_description/urdf/sensors.xacro``` and ```bluerov2_heavy_control/bluerov2_heavy_thruster_manager/config/TAM.yaml```
+   - Key Componenets: Actuator positions and orientation and for thruster manager, TAM
+
+### 5. Control Architecture & PID Tuning
+
+The vehicle utilizes a multi-loop cascaded PID architecutre
+   - Controller location: ```/bluerov2_heavy_control/bluerov2_heavy_cascaded_pids```
+   - Node definition: ```bluerov2_heavy_cascaded_pids/scripts/velocity_control_bluerov2_heavy.py```
+   - PID Gain Configurations: Tune or adjust Kp, Ki and Kd gains for roll, pitch, yaw and linear velocity in the node definition.
+
+## Troubleshooting & Notes
+- Gazebo Model Path: If Gazebo fails to locate meshes or vehicle textures, ensure ```GAZEBO_MODEL_PATH``` is exported:
+  ```bash
+  export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/ros2_ws/src/bluerov2_heavy_description
+  ```
+- Package not found
+  Make sure the workspace is built and sourced:
+  ```bash
+  cd ~/uuv_ws
+  colcon build --symlink-install
+  source ~/uuv_ws/install/setup.bash
+  ```
+  Check whether ROS can find the package
+  ```bash
+  ros2 pkg list | grep bluerov2_heavy
+  ```
+- Controller does not start
+  Check whether the controller node started or not:
+  ```bash
+  ros2 node list
+  ```
