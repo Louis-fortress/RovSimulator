@@ -1,6 +1,6 @@
 # BlueROV2 Heavy Simulation and Control Framework (ROS 2 Humble)
 
-![Bluerov2 Heayy](./Bluerov2_heavy.png)
+![Bluerov2 Heayy](./Bluerov2_Heavy.png)
 
 This repository provides a complete simulation environment that contains the simulation model, hydrodynamic model, actuators, sensors and a cascaded PID control architecture used to simulate and control the BlueROV2 Heavy in Gazebo.
 
