@@ -17,7 +17,7 @@
     <group>
         <push-ros-namespace namespace="$(var uuv_name)"/>
         
-        <node pkg="bluerov2_heavy_cascaded_pids" exec="velocity_four_control.py" name="velocity_four_control" output="screen">
+        <node pkg="bluerov2_heavy_cascaded_pids" exec="velocity_control_bluerov2_heavy.py" name="velocity_control_bluerov2_heavy" output="screen">
             <remap from="odom" to="/$(var uuv_name)/pose_gt"/>
             <remap from="cmd_vel" to="/$(var uuv_name)/cmd_vel"/>
         </node>

@@ -254,7 +254,7 @@ def main():
     try:
         sim_time_param = is_sim_time()
 
-        node = VelocityToForceControllerNode('velocity_control', parameter_overrides=[sim_time_param])
+        node = VelocityToForceControllerNode('velocity_control_bluerov2_heavy', parameter_overrides=[sim_time_param])
         rclpy.spin(node)
     except Exception as e:
         print('Caught exception: ' + str(e))

@@ -7,8 +7,8 @@ find_package(ament_cmake REQUIRED)
 ament_python_install_package(bluerov2_heavy_PID PACKAGE_DIR src/PID)
 
 install(PROGRAMS scripts/position_control.py
-                 scripts/position_four_control.py
-                 scripts/velocity_four_control.py
+                 scripts/position_control_bluerov2_heavy.py
+                 scripts/velocity_control_bluerov2_heavy.py
                  scripts/velocity_control.py
                  scripts/acceleration_control.py
         DESTINATION lib/${PROJECT_NAME})

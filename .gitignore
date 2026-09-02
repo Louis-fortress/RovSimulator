@@ -20,6 +20,9 @@ __pycache__
 
 # Documentation
 docs/build
+build/
+install/
+log/
 
 uuv_simulator/
 uuv_tutorials/
@@ -27,3 +30,4 @@ user_needs/
 tools/
 uuv_mapping/
 uuv_control/
+uuv_descriptions/
